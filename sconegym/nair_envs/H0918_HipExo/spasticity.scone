@@ -1,0 +1,49 @@
+# SCONE Configuration File
+# Test 1 for exoskeleton environment
+# 05/03/2025
+# David Muñoz, Andres Chavarrias
+
+CmaOptimizer {
+	signature_prefix = DATE_TIME
+	min_progress_samples = 100
+	#init = {file = par/250318.150848.H0918v3.0171_72.397_27.390.par locked = 0}
+	
+	SimulationObjective {
+		max_duration = 10
+		
+		ModelHyfydy {
+			model_file = H0918v3.hfd#H0918_nair_fix3.hfd
+			enable_dof_actuators = 1
+			state_init_file = InitStateExoGait_0.zml#InitStateExo_Flex_v0.zml #InitStateExoGait_0.zml
+			initial_state_offset = "0~0.01<-0.5,0.5>"
+			initial_state_offset_exclude = *_tx;*_ty;*_u
+			fixed_control_step_size = 0.005
+			use_opensim_activation_dynamics = 1
+			zero_velocity_equilibration = 1
+			
+		}	# modleg.osim / Exoleg_v6.osim
+		CompositeController{
+			<< ControllerGH2010v12.scone >>
+			ScriptController {script_file = spasticity_controller.lua}
+			#ReflexController {
+			#	ConditionalMuscleReflex {
+			#		dof = knee_angle_r
+			#		pos_min = -0.8
+			#		pos_max = 0
+			#		target = rect_fem_r
+			#		delay = 0.020
+			#		KF = 1 # 1.1 in paper
+			#	}
+			#ConditionalMuscleReflex {dof = knee_rz_r source = bifemsh_r delay = 0.01 C0 = 0.5}
+			#}
+		}
+		CompositeMeasure {
+			minimize = true
+			#EffortMeasure {measure_type = Wang2012 weight = 0.1 minimize = true}	
+			<< MeasureGait10.scone >>
+			#ScriptMeasure {script_file = measure.lua weight = 1 minimize = true}
+		}
+		
+	}
+	
+}

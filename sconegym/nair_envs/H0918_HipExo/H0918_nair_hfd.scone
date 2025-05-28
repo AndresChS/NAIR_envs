@@ -1,0 +1,34 @@
+# Model used in simulation
+ModelHyfydy {
+	model_file = models/H0918v3.hfd #H0918_nair_fix3.hfd
+	simulation_end_time = 20
+	enable_dof_actuators = 1
+	# Set initial state
+	state_init_file = init_state/InitStateExoGait_0.zml
+	fixed_control_step_size = 0.005
+	initial_equilibration_activation = 0.05
+	<< neural_delays/neural_delays_FEA_v4.zml >>
+	ScriptController {script_file = controllers/spasticity_controller.lua}
+}
+#CompositeController{
+	#<< ControllerGH2010v12.scone >>
+#	ScriptController {script_file = spasticity_controller.lua}
+	#ScriptController {script_file = exo_ext_controller.lua}
+	#ReflexController {
+	#	ConditionalMuscleReflex {
+	#		dof = knee_angle_r
+	#		pos_min = -0.8
+	#		pos_max = 0
+	#		target = rect_fem_r
+	#		delay = 0.020
+	#		KF = 1 # 1.1 in paper
+	#	}
+	#ConditionalMuscleReflex {dof = knee_rz_r source = bifemsh_r delay = 0.01 C0 = 0.5}
+	#}
+#}
+#CompositeMeasure {
+#	minimize = true
+#EffortMeasure {measure_type = Wang2012 weight = 0.1 minimize = true}	
+#	<< MeasureGait10.scone >>
+#ScriptMeasure {script_file = measure.lua weight = 1 minimize = true}
+#}

@@ -1,0 +1,24 @@
+values {
+	hip_exo_r = 1.5708
+	exo_tx = 2.7020049946462855e-08	
+	LowExo_to_UpperExo_rz = -1.2112267009613268e-25
+	pelvis_tilt = 0.0200194
+	pelvis_tx =	0.057685489999999999
+	pelvis_ty = 1.06004667
+	hip_flexion_r = 1.5708
+	knee_angle_r = -1.4323999110347741e-09
+	knee_angle_pat_r = - 1.4323999110347741e-09
+	ankle_angle_r = -0.10868165664958659
+}
+velocities {
+	hip_exo_r = 0
+	exo_tx = 0
+	LowExo_to_UpperExo_rz = 0
+	pelvis_tilt = 0
+	pelvis_tx =	0
+	pelvis_ty = 0
+	hip_flexion_r = 0
+	knee_angle_r = 0.5
+	knee_angle_pat_r = 0
+	ankle_angle_r = 0
+}

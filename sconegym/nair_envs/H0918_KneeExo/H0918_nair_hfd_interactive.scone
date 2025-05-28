@@ -1,0 +1,21 @@
+# INSTRUCTIONS for Interactive Mode:
+#
+# 1. Press the red RECORD button (or F5) on the play control to start the simulation
+# 2. CLICK anywhere on the model and DRAG to pull it
+# 3. The simulation automatically STOPS after 60 seconds and goes into playback mode
+# 4. RELOAD the scenario (Ctrl+R) to activate the record button again
+#
+ModelHyfydy {
+	model_file = H0918_nair_fix3.hfd
+	simulation_end_time = 60
+	
+	# Set initial state
+	#state_init_file = InitStateExo.zml
+	fixed_control_step_size = 0.005
+	initial_equilibration_activation = 0.05
+	
+	# interactive mode (press F5 to start, Ctrl+R to reset)
+	enable_interaction = 1
+	
+
+}
