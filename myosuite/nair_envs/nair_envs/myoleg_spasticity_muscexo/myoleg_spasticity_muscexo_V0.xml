@@ -8,7 +8,7 @@ reference.
 	source	:: https://github.com/AndresChS/NRG_Code
 	====================================================== -->
 
-<mujoco model="myoleg_1dof40muscexo_v0">
+<mujoco model="myoleg_spasticity_muscexo_V0">
 
   <include file="scene/myosuite_scene_noPedestal.xml"/>
   <include file="torso/assets/myotorsorigidnoinertia_assets.xml"/>

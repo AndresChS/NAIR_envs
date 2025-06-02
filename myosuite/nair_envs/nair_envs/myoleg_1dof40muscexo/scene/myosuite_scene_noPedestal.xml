@@ -11,19 +11,19 @@
     <compiler angle="radian" meshdir=".." texturedir=".."/>
     <asset>
         <!-- Scene -©vk©-->
-        <texture name="textscene" type="2d" file="myoleg_1dof40muscexo/scene/myosuite_scene.png"/>
+        <texture name="textscene" type="2d" file="../myo_sim/scene/myosuite_scene.png"/>
         <material name="matscene" texture="textscene"/>
-        <mesh name="meshscene" file="myoleg_1dof40muscexo/scene/myosuite_scene_noFloor_noPedestal.msh" scale=".01 .01 .01"/>
-        <!-- <texture name="textwarning" type="2d" file="../scene/myosuite_warning.png"/> -->
+        <mesh name="meshscene" file="../myo_sim/scene/myosuite_scene_noFloor_noPedestal.msh" scale=".01 .01 .01"/>
+        <!-- <texture name="textwarning" type="2d" file="../myo_sim/scene/myosuite_warning.png"/> -->
         <!-- <material name="matwarning" texture="textwarning"/> -->
 
         <!-- Floor -©vk©-->
-        <texture name="texfloor" type="2d" height="1" width="1" file="myoleg_1dof40muscexo/scene/floor0.png"/>
+        <texture name="texfloor" type="2d" height="1" width="1" file="../myo_sim/scene/floor0.png"/>
         <material name="matfloor" reflectance="0.01" texture="texfloor" texrepeat="1 1" texuniform="true"/>
 
         <!-- Logo -©vk©-->
-        <texture name="textlogo" type="2d" file="myoleg_1dof40muscexo/scene/myosuite_logo.png"/>
-        <mesh name="logo" file="myoleg_1dof40muscexo/scene/myosuite_logo.msh" scale="1 1 1"/>
+        <texture name="textlogo" type="2d" file="../myo_sim/scene/myosuite_logo.png"/>
+        <mesh name="logo" file="../myo_sim/scene/myosuite_logo.msh" scale="1 1 1"/>
         <material name="matlogo" texture="textlogo"/>
 
         <!-- <mesh name="human" file="../myo_sim/body/Geometry/human_lowpoly.stl" scale="1 1 1"/> -->
@@ -34,7 +34,7 @@
     <visual>
         <scale light=".05" framewidth=".005"/>
         <headlight ambient=".5 .5 .5" diffuse="0.50 0.50 0.50" specular="0.50 0.50 0.50"/>
-        <global elevation="-15" azimuth="90"/> 
+        <global elevation="-15"/>
         <rgba actuator='.7 .4 .4 1' actuatorpositive='1 0 0 1' actuatornegative='.175 .1 .1 1'/>
     </visual>
 

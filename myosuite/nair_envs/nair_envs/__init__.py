@@ -9,16 +9,18 @@ from myosuite.utils import gym; register=gym.register
 import os
 import numpy as np
 
-register(id='ExoLeg40MuscFlexoExtEnv-v0',
+register(id='ExoLegSpasticityFlexoExtEnv-v0',
     entry_point='myosuite.envs.nair.MyolegenvV0:Myoleg_env_v0', # where to find the new Environment Class
-    max_episode_steps=200, # duration of the episode
+    max_episode_steps=256, # duration of the episode
     kwargs={
-        'model_path': '/Users/achs/Documents/PHD/code/NAIR_Code/envs/myosuite/nair_envs/nair_envs/myoleg_1dof40muscexo/myoleg_1dof40muscexo_V0.xml', # where the xml file of the environment is located
+        'model_path': 'myoleg_spasticity_muscexo/myoleg_spasticity_muscexo_V0.xml', # where the xml file of the environment is located
         'target_jnt_range': {'knee_angle_r':(0, 1.57)},
-        'target_qposhola': 0.8,
-        'sigma': .4,
+        'target_qpos': 0.2,
+        'sigma': .2,
+        'target_type': 'fixed',
         'normalize_act': True,
-        'reset_type': 'init'
+        'reset_type': 'fixed',
+        'spasticity': 'passive'
     }
 )
 
