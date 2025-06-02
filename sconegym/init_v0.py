@@ -28,7 +28,7 @@ register(id="nair_walk_h0918-v0",
 register(id="nair_walk_h0918-v1",
          entry_point="sconegym.nair_gaitgym:GaitGym",
          kwargs={
-             'model_file': curr_dir + '/nair_envs/H0918_KneeExo/H0918_nair_hfd.scone',
+             'model_file': curr_dir + '/nair_envs/H0918_KneeExo/H0918_knee_exo_hfd.scone',
              'obs_type': '2D',
              'left_leg_idxs': [3, 4, 5],
              'right_leg_idxs': [6, 7, 8],

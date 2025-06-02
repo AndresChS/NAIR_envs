@@ -12,7 +12,7 @@ CmaOptimizer {
 		max_duration = 10
 		
 		ModelHyfydy {
-			model_file = models/H0918v3.hfd#H0918_nair_fix3.hfd
+			model_file = models/H0918_knee_exo_v3.hfd#H0918_nair_fix3.hfd
 			enable_dof_actuators = 1
 			state_init_file = init_states/InitStateExoGait_0.zml#InitStateExo_Flex_v0.zml #InitStateExoGait_0.zml
 			initial_state_offset = "0~0.01<-0.5,0.5>"
