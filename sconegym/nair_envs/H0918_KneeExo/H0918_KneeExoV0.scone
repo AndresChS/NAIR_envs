@@ -1,0 +1,15 @@
+# Model used in simulation
+ModelHyfydy {
+	model_file = models/H0918_KneeExoV0.hfd #H0918_nair_fix3.hfd
+	simulation_end_time = 4
+	enable_dof_actuators = 0
+	# Set initial state
+	state_init_file = init_states/InitStateExoGait_0.zml
+	fixed_control_step_size = 0.005
+	initial_equilibration_activation = 0.05
+	<< neural_delays/neural_delays_FEA_v4.zml >>
+	CompositeController{
+		<< controllers/ControllerGH2010v12.scone >>
+		ScriptController {script_file = controllers/spasticity_controller.lua}
+	}
+}

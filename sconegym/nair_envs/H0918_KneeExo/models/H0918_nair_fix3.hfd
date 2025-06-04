@@ -260,7 +260,7 @@ model {
 		]
 	}
 	point_path_muscle {
-		name = vasti_r
+		name = vas_int_r
 		max_isometric_force = 4530
 		optimal_fiber_length = 0.0993
 		tendon_slack_length = 0.1231
@@ -368,7 +368,7 @@ model {
 		]
 	}
 	point_path_muscle {
-		name = vasti_l
+		name = vas_int_l
 		max_isometric_force = 4530
 		optimal_fiber_length = 0.0993
 		tendon_slack_length = 0.1231
@@ -453,20 +453,18 @@ model {
 		pos { x = 0.085 y = -0.015 z = 0 }
 		ori { x = 0 y = 0 z = 0 }
 	}
-	mesh {
 		
-		dof { name = pelvis_tilt source = pelvis_rz range = -90..90 }
-		dof { name = pelvis_tx source = pelvis_tx range = -5..5 }
-		dof { name = pelvis_ty source = pelvis_ty range = -1..2 default = 1 }
-		dof { name = hip_flexion_r source = hip_rz_r range = -30..120 }
-		dof { name = knee_angle_r source = knee_rz_r range = -120..10 }
-		dof { name = ankle_angle_r source = ankle_rz_r range = -60..25 }
-		dof { name = hip_flexion_l source = hip_rz_l range = -30..120 }
-		dof { name = knee_angle_l source = knee_rz_l range = -120..10 }
-		dof { name = ankle_angle_l source = ankle_rz_l range = -60..25 }
-		dof { name = upperexo_hinge source = hip_strap_hinge_rz_r range = -15..15 }
-		dof { name = upperexo_slide source = hip_strap_slide_ty_r range = -0.1..0.1 }
-		dof { name = exo_rotation source = exo_flexion_rz_r range = -135..5 }
-		dof { name = lowerexo_hinge source = tibia_strap_rz_r range = -15..15 }
-	}
+	dof { name = pelvis_tilt source = pelvis_rz range = -90..90 }
+	dof { name = pelvis_tx source = pelvis_tx range = -5..5 }
+	dof { name = pelvis_ty source = pelvis_ty range = -1..2 default = 1 }
+	dof { name = hip_flexion_r source = hip_rz_r range = -30..120 }
+	dof { name = knee_angle_r source = knee_rz_r range = -120..10 }
+	dof { name = ankle_angle_r source = ankle_rz_r range = -60..25 }
+	dof { name = hip_flexion_l source = hip_rz_l range = -30..120 }
+	dof { name = knee_angle_l source = knee_rz_l range = -120..10 }
+	dof { name = ankle_angle_l source = ankle_rz_l range = -60..25 }
+	dof { name = upperexo_hinge source = hip_strap_hinge_rz_r range = -15..15 }
+	dof { name = upperexo_slide source = hip_strap_slide_ty_r range = -0.1..0.1 }
+	dof { name = exo_rotation source = exo_flexion_rz_r range = -135..5 }
+	dof { name = lowerexo_hinge source = tibia_strap_rz_r range = -15..15 }
 }

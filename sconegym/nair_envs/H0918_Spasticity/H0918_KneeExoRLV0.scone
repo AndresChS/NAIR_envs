@@ -1,0 +1,16 @@
+# Model used in simulation
+init { file = par/spas_gait.par  std_factor = 2}
+ModelHyfydy {
+	model_file = models/H0918v3.hfd #H0918v3.hfd
+	simulation_end_time = 10
+	enable_dof_actuators = 1
+	# Set initial state
+	state_init_file = init_state/InitStateExoGait_0.zml
+	fixed_control_step_size = 0.005
+	initial_equilibration_activation = 0.05
+	<< neural_delays/neural_delays_FEA_v4.zml >>
+	CompositeController{
+		<< controllers/ControllerGH2010v12.scone >>
+		ScriptController {script_file = controllers/spasticity_controller.lua}
+	}
+}

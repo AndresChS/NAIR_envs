@@ -185,21 +185,30 @@ model {
 			pos_in_child { x = -0.012 y = 0 z = 0.022 } #{ x = -0.015 y = 0 z = -0.022 }
 			limits { x = 0..0 y = 0..0 z = 0..0 }
 			limit_stiffness = 100
-			stiffness = 1e4
+			stiffness = 1e3
 		}
-
-			mesh { 
-				file = geometry/Exo_hip_strap_L.stl 
-				pos { x = -0.02 y = -0.168 z = 0.055 }
-				ori { x = 0 y= 0 z = 0}
-				scale { x = 0.0009 y = 0.0009 z = 0.0009 }
-			}
+		joint_6dof {
+			name = hip_strap_slide_r
+			parent = femur_l
+			pos_in_parent { x = 0 y = 0.0 z = 0.0 }
+			pos_in_child { x = -0.012 y = 0 z = 0.022 }
+			limits { x = 0..0 y = 0..0 z = 0..0 }
+			translation_limits { x = 0..0 y = -0.02..0.02 z = 0..0 }
+			limit_stiffness = 100
+			stiffness = 1e3
 		}
-			point_path_muscle {
+		mesh { 
+			file = geometry/Exo_hip_strap_L.stl 
+			pos { x = -0.02 y = -0.168 z = 0.055 }
+			ori { x = 0 y= 0 z = 0}
+			scale { x = 0.0009 y = 0.0009 z = 0.0009 }
+		}
+	}
+	point_path_muscle {
 		name = hip_strap_rope_l
-		max_isometric_force = 2729
-		optimal_fiber_length = 0.5
-		tendon_slack_length = 0.066
+		max_isometric_force = 3000
+		optimal_fiber_length = 0.4
+		tendon_slack_length = 0.3
 		pennation_angle = 0.3578
 		path [
 			{ body = Exo_belt pos { x = 0.09 y = -0.02 z = -0.0978 } }
@@ -208,427 +217,435 @@ model {
 	}
 	point_path_muscle {
 		name = hip_strap_rope_r
-		max_isometric_force = 2729
-		optimal_fiber_length = 0.3
-		tendon_slack_length = 0.066
+		max_isometric_force = 3000
+		optimal_fiber_length = 0.4
+		tendon_slack_length = 0.3
 		pennation_angle = 0.3578
 		path [
 			{ body = Exo_belt pos { x = 0.09 y = -0.02 z = 0.1 } }
 			{ body = Exo_hip_strap_R pos { x = 0.09 y = -0.01 z = 0 } }
 		]
 	}
-		point_path_muscle {
-			name = glut_med_r
-			max_isometric_force = 2729
-			optimal_fiber_length = 0.0733
-			tendon_slack_length = 0.066
-			pennation_angle = 0.3578
-			path [
-				{ body = pelvis pos { x = -0.0148 y = 0.0445 z = 0.0766 } }
-				{ body = femur_r pos { x = -0.0258 y = 0.1642 z = 0.0527 } }
-			]
-		}
-		point_path_muscle {
-			name = add_mag_r
-			max_isometric_force = 3931
-			optimal_fiber_length = 0.087
-			tendon_slack_length = 0.06
-			pennation_angle = 0.0872665
-			path [
-				{ body = pelvis pos { x = -0.0025 y = -0.1174 z = 0.0255 } }
-				{ body = femur_r pos { x = -0.0045 y = 0.0489 z = 0.0339 } }
-			]
-		}
-		point_path_muscle {
-			name = hamstrings_r
-			max_isometric_force = 4105
-			optimal_fiber_length = 0.0976
-			tendon_slack_length = 0.319
-			pennation_angle = 0.2025
-			path [
-				{ body = pelvis pos { x = -0.05526 y = -0.10257 z = 0.06944 } }
-				{ body = tibia_r pos { x = -0.028 y = 0.1667 z = 0.02943 } }
-				{ body = tibia_r pos { x = -0.021 y = 0.1467 z = 0.0343 } }
-			]
-		}
-		point_path_muscle {
-			name = bifemsh_r
-			max_isometric_force = 1273
-			optimal_fiber_length = 0.1103
-			tendon_slack_length = 0.095
-			pennation_angle = 0.2147
-			path [
-				{ body = femur_r pos { x = 0.005 y = -0.0411 z = 0.0234 } }
-				{ body = tibia_r pos { x = -0.028 y = 0.1667 z = 0.02943 } }
-				{ body = tibia_r pos { x = -0.021 y = 0.1467 z = 0.0343 } }
-			]
-		}
-		point_path_muscle {
-			name = glut_max_r
-			max_isometric_force = 3338
-			optimal_fiber_length = 0.1569
-			tendon_slack_length = 0.111
-			pennation_angle = 0.3822
-			path [
-				{ body = pelvis pos { x = -0.0642 y = 0.0176 z = 0.0563 } }
-				{ body = pelvis pos { x = -0.0669 y = -0.052 z = 0.0914 } }
-				{ body = femur_r pos { x = -0.0426 y = 0.117 z = 0.0293 } }
-				{ body = femur_r pos { x = -0.0156 y = 0.0684 z = 0.0419 } }
-			]
-		}
-		point_path_muscle {
-			name = iliopsoas_r
-			max_isometric_force = 2448
-			optimal_fiber_length = 0.1066
-			tendon_slack_length = 0.152
-			pennation_angle = 0.2496
-			path [
-				{ body = pelvis pos { x = 0.006 y = 0.0887 z = 0.0289 } }
-				{ body = pelvis pos { x = 0.0407 y = -0.01 z = 0.076 } }
-				{ body = femur_r pos { x = 0.033 y = 0.135 z = 0.0038 } }
-				{ body = femur_r pos { x = -0.0188 y = 0.1103 z = 0.0104 } }
-			]
-		}
-		point_path_muscle {
-			name = rect_fem_r
-			max_isometric_force = 2192
-			optimal_fiber_length = 0.0759
-			tendon_slack_length = 0.3449
-			pennation_angle = 0.2426
-			path [
-				{ body = pelvis pos { x = 0.0412 y = -0.0311 z = 0.0968 } }
-				{ body = femur_r pos { x = 0.038 y = -0.17 z = 0.004 } }
-				{ body = tibia_r pos { x = 0.038 y = 0.2117 z = 0.0018 } }
-			]
-		}
-		point_path_muscle {
-			name = vasti_r
-			max_isometric_force = 9594
-			optimal_fiber_length = 0.0993
-			tendon_slack_length = 0.1231
-			pennation_angle = 0.0785
-			path [
-				{ body = femur_r pos { x = 0.029 y = -0.0224 z = 0.031 } }
-				{ body = femur_r pos { x = 0.038 y = -0.17 z = 0.007 } }
-				{ body = tibia_r pos { x = 0.038 y = 0.2117 z = 0.0018 } }
-			]
-		}
-		point_path_muscle {
-			name = gastroc_r
-			max_isometric_force = 4691
-			optimal_fiber_length = 0.051
-			tendon_slack_length = 0.384
-			pennation_angle = 0.1728
-			path [
-				{ body = femur_r pos { x = -0.02 y = -0.218 z = -0.024 } }
-				{ body = calcn_r pos { x = -0.095 y = 0.001 z = -0.0053 } }
-			]
-		}
-		point_path_muscle {
-			name = soleus_r
-			max_isometric_force = 6195
-			optimal_fiber_length = 0.044
-			tendon_slack_length = 0.248
-			pennation_angle = 0.4939
-			path [
-				{ body = tibia_r pos { x = -0.0024 y = 0.0334 z = 0.0071 } }
-				{ body = calcn_r pos { x = -0.095 y = 0.001 z = -0.0053 } }
-			]
-		}
-		point_path_muscle {
-			name = tib_ant_r
-			max_isometric_force = 2116
-			optimal_fiber_length = 0.0683
-			tendon_slack_length = 0.243
-			pennation_angle = 0.1676
-			path [
-				{ body = tibia_r pos { x = 0.0179 y = 0.0243 z = 0.0115 } }
-				{ body = tibia_r pos { x = 0.0329 y = -0.2084 z = -0.0177 } }
-				{ body = calcn_r pos { x = 0.0166 y = -0.0122 z = -0.0305 } }
-			]
-		}
-		point_path_muscle {
-			name = glut_med_l
-			max_isometric_force = 2729
-			optimal_fiber_length = 0.0733
-			tendon_slack_length = 0.066
-			pennation_angle = 0.3578
-			path [
-				{ body = pelvis pos { x = -0.0148 y = 0.0445 z = -0.0766 } }
-				{ body = femur_l pos { x = -0.0258 y = 0.1642 z = -0.0527 } }
-			]
-		}
-		point_path_muscle {
-			name = add_mag_l
-			max_isometric_force = 3931
-			optimal_fiber_length = 0.087
-			tendon_slack_length = 0.06
-			pennation_angle = 0.0872665
-			path [
-				{ body = pelvis pos { x = -0.0025 y = -0.1174 z = -0.0255 } }
-				{ body = femur_l pos { x = -0.0045 y = 0.0489 z = -0.0339 } }
-			]
-		}
-		point_path_muscle {
-			name = hamstrings_l
-			max_isometric_force = 4105
-			optimal_fiber_length = 0.0976
-			tendon_slack_length = 0.319
-			pennation_angle = 0.2025
-			path [
-				{ body = pelvis pos { x = -0.05526 y = -0.10257 z = -0.06944 } }
-				{ body = tibia_l pos { x = -0.028 y = 0.1667 z = -0.02943 } }
-				{ body = tibia_l pos { x = -0.021 y = 0.1467 z = -0.0343 } }
-			]
-		}
-		point_path_muscle {
-			name = bifemsh_l
-			max_isometric_force = 1273
-			optimal_fiber_length = 0.1103
-			tendon_slack_length = 0.095
-			pennation_angle = 0.2147
-			path [
-				{ body = femur_l pos { x = 0.005 y = -0.0411 z = -0.0234 } }
-				{ body = tibia_l pos { x = -0.028 y = 0.1667 z = -0.02943 } }
-				{ body = tibia_l pos { x = -0.021 y = 0.1467 z = -0.0343 } }
-			]
-		}
-		point_path_muscle {
-			name = glut_max_l
-			max_isometric_force = 3338
-			optimal_fiber_length = 0.1569
-			tendon_slack_length = 0.111
-			pennation_angle = 0.3822
-			path [
-				{ body = pelvis pos { x = -0.0642 y = 0.0176 z = -0.0563 } }
-				{ body = pelvis pos { x = -0.0669 y = -0.052 z = -0.0914 } }
-				{ body = femur_l pos { x = -0.0426 y = 0.117 z = -0.0293 } }
-				{ body = femur_l pos { x = -0.0156 y = 0.0684 z = -0.0419 } }
-			]
-		}
-		point_path_muscle {
-			name = iliopsoas_l
-			max_isometric_force = 2448
-			optimal_fiber_length = 0.1066
-			tendon_slack_length = 0.152
-			pennation_angle = 0.2496
-			path [
-				{ body = pelvis pos { x = 0.006 y = 0.0887 z = -0.0289 } }
-				{ body = pelvis pos { x = 0.0407 y = -0.01 z = -0.076 } }
-				{ body = femur_l pos { x = 0.033 y = 0.135 z = -0.0038 } }
-				{ body = femur_l pos { x = -0.0188 y = 0.1103 z = -0.0104 } }
-			]
-		}
-		point_path_muscle {
-			name = rect_fem_l
-			max_isometric_force = 2192
-			optimal_fiber_length = 0.0759
-			tendon_slack_length = 0.3449
-			pennation_angle = 0.2426
-			path [
-				{ body = pelvis pos { x = 0.0412 y = -0.0311 z = -0.0968 } }
-				{ body = femur_l pos { x = 0.038 y = -0.17 z = -0.004 } }
-				{ body = tibia_l pos { x = 0.038 y = 0.2117 z = -0.0018 } }
-			]
-		}
-		point_path_muscle {
-			name = vasti_l
-			max_isometric_force = 9594
-			optimal_fiber_length = 0.0993
-			tendon_slack_length = 0.1231
-			pennation_angle = 0.0785
-			path [
-				{ body = femur_l pos { x = 0.029 y = -0.0224 z = -0.031 } }
-				{ body = femur_l pos { x = 0.038 y = -0.17 z = -0.007 } }
-				{ body = tibia_l pos { x = 0.038 y = 0.2117 z = -0.0018 } }
-			]
-		}
-		point_path_muscle {
-			name = gastroc_l
-			max_isometric_force = 4691
-			optimal_fiber_length = 0.051
-			tendon_slack_length = 0.384
-			pennation_angle = 0.1728
-			path [
-				{ body = femur_l pos { x = -0.02 y = -0.218 z = 0.024 } }
-				{ body = calcn_l pos { x = -0.095 y = 0.001 z = 0.0053 } }
-			]
-		}
-		point_path_muscle {
-			name = soleus_l
-			max_isometric_force = 6195
-			optimal_fiber_length = 0.044
-			tendon_slack_length = 0.248
-			pennation_angle = 0.4939
-			path [
-				{ body = tibia_l pos { x = -0.0024 y = 0.0334 z = -0.0071 } }
-				{ body = calcn_l pos { x = -0.095 y = 0.001 z = 0.0053 } }
-			]
-		}
-		point_path_muscle {
-			name = tib_ant_l
-			max_isometric_force = 2116
-			optimal_fiber_length = 0.0683
-			tendon_slack_length = 0.243
-			pennation_angle = 0.1676
-			path [
-				{ body = tibia_l pos { x = 0.0179 y = 0.0243 z = -0.0115 } }
-				{ body = tibia_l pos { x = 0.0329 y = -0.2084 z = 0.0177 } }
-				{ body = calcn_l pos { x = 0.0166 y = -0.0122 z = 0.0305 } }
-			]
-		}
-		geometry {
-			name = platform
-			type = plane
-			normal { x = -1 y = 0 z = 0 }
-			body = ground
-			pos { x = 0 y = 0 z = 0 }
-			ori { x = 0 y = 0 z = -90 }
-		}
-		geometry {
-			name = heel_r
-			type = sphere
-			radius = 0.03
-			body = calcn_r
-			pos { x = -0.085 y = -0.015 z = -0.005 }
-			ori { x = 0 y = 0 z = 0 }
-		}
-		geometry {
-			name = toe_lat_r
-			type = sphere
-			radius = 0.02
-			body = calcn_r
-			pos { x = 0.0425 y = -0.03 z = 0.041 }
-			ori { x = 0 y = 0 z = 0 }
-		}
-		geometry {
-			name = toe_med_r
-			type = sphere
-			radius = 0.02
-			body = calcn_r
-			pos { x = 0.085 y = -0.03 z = -0.0275 }
-			ori { x = 0 y = 0 z = 0 }
-		}
-		geometry {
-			name = heel_l
-			type = sphere
-			radius = 0.03
-			body = calcn_l
-			pos { x = -0.085 y = -0.015 z = 0.005 }
-			ori { x = 0 y = 0 z = 0 }
-		}
-		geometry {
-			name = toe_lat_l
-			type = sphere
-			radius = 0.02
-			body = calcn_l
-			pos { x = 0.0425 y = -0.03 z = -0.041 }
-			ori { x = 0 y = 0 z = 0 }
-		}
-		geometry {
-			name = toe_med_l
-			type = sphere
-			radius = 0.02
-			body = calcn_l
-			pos { x = 0.085 y = -0.03 z = 0.0275 }
-			ori { x = 0 y = 0 z = 0 }
-		}
-		geometry {
-			name = upper_leg_r
-			type = capsule
-			radius = 0.05
-			height = 0.37
-			body = femur_r
-			pos { x = 0 y = -0.04 z = 0.01 }
-			ori { x = -3 y = 0 z = 0 }
-		}
-		geometry {
-			name = lower_leg_r
-			type = capsule
-			radius = 0.04
-			height = 0.35
-			body = tibia_r
-			pos { x = 0 y = -0.05 z = 0 }
-			ori { x = 0 y = 0 z = 3 }
-		}
-		geometry {
-			name = upper_leg_l
-			type = capsule
-			radius = 0.05
-			height = 0.37
-			body = femur_l
-			pos { x = 0 y = -0.04 z = -0.01 }
-			ori { x = 3 y = 0 z = 0 }
-		}
-		geometry {
-			name = lower_leg_l
-			type = capsule
-			radius = 0.04
-			height = 0.35
-			body = tibia_l
-			pos { x = 0 y = -0.05 z = 0 }
-			ori { x = 0 y = 0 z = 3 }
-		}
-		geometry {
-			name = lower_trunk
-			type = capsule
-			radius = 0.1
-			height = 0.12
-			body = pelvis
-			pos { x = -0.01 y = -0.01 z = 0 }
-			ori { x = 90 y = 0 z = 0 }
-		}
-		geometry {
-			name = belly
-			type = capsule
-			radius = 0.10
-			height = 0.1
-			body = torso
-			pos { x = 0.05 y = -0.27 z = 0 }
-			ori { x = 90 y = 0 z = 0 }
-		}
-		geometry {
-			name = middle_trunk
-			type = capsule
-			radius = 0.10
-			height = 0.12
-			body = torso
-			pos { x = 0.04 y = -0.15 z = 0 }
-			ori { x = 90 y = 0 z = 0 }
-		}
-		geometry {
-			name = upper_trunk
-			type = capsule
-			radius = 0.11
-			height = 0.13
-			body = torso
-			pos { x = 0.03 y = -0.01 z = 0 }
-			ori { x = 90 y = 0 z = 0 }
-		}
-		geometry {
-			name = head
-			type = sphere
-			radius = 0.1
-			body = torso
-			pos { x = 0.04 y = 0.24 z = 0 }
-		}
-		dof { name = pelvis_tilt source = pelvis_rz range = -90..90 }
-		dof { name = pelvis_list source = pelvis_rx range = -90..90 }
-		dof { name = pelvis_rotation source = pelvis_ry range = -90..90 }
-		dof { name = pelvis_tx source = pelvis_tx range = -5..5 }
-		dof { name = pelvis_ty source = pelvis_ty range = -1..2 default = 1 }
-		dof { name = pelvis_tz source = pelvis_tz range = -3..3 }
-		dof { name = hip_flexion_r source = hip_rz_r range = -30..120 }
-		dof { name = hip_adduction_r source = hip_rx_r range = -45..20 }
-		dof { name = hip_rotation_r source = hip_ry_r range = -45..45 }
-		dof { name = knee_angle_r source = knee_rz_r range = -120..10 }
-		dof { name = ankle_angle_r source = ankle_rz_r range = -60..25 }
-		dof { name = hip_flexion_l source = hip_rz_l range = -30..120 }
-		dof { name = hip_adduction_l source = -hip_rx_l range = -45..20 }
-		dof { name = hip_rotation_l source = -hip_ry_l range = -45..45 }
-		dof { name = knee_angle_l source = knee_rz_l range = -120..10 }
-		dof { name = ankle_angle_l source = ankle_rz_l range = -60..25 }
-		dof { name = lumbar_extension source = lumbar_joint_rz range = -90..90 }
-		dof { name = lumbar_bending source = lumbar_joint_rx range = -90..90 }
-		dof { name = lumbar_rotation source = lumbar_joint_ry range = -90..90 }
+	point_path_muscle {
+		name = glut_med_r
+		max_isometric_force = 2729
+		optimal_fiber_length = 0.0733
+		tendon_slack_length = 0.066
+		pennation_angle = 0.3578
+		path [
+			{ body = pelvis pos { x = -0.0148 y = 0.0445 z = 0.0766 } }
+			{ body = femur_r pos { x = -0.0258 y = 0.1642 z = 0.0527 } }
+		]
 	}
+	point_path_muscle {
+		name = add_mag_r
+		max_isometric_force = 3931
+		optimal_fiber_length = 0.087
+		tendon_slack_length = 0.06
+		pennation_angle = 0.0872665
+		path [
+			{ body = pelvis pos { x = -0.0025 y = -0.1174 z = 0.0255 } }
+			{ body = femur_r pos { x = -0.0045 y = 0.0489 z = 0.0339 } }
+		]
+	}
+	point_path_muscle {
+		name = hamstrings_r
+		max_isometric_force = 4105
+		optimal_fiber_length = 0.0976
+		tendon_slack_length = 0.319
+		pennation_angle = 0.2025
+		path [
+			{ body = pelvis pos { x = -0.05526 y = -0.10257 z = 0.06944 } }
+			{ body = tibia_r pos { x = -0.028 y = 0.1667 z = 0.02943 } }
+			{ body = tibia_r pos { x = -0.021 y = 0.1467 z = 0.0343 } }
+		]
+	}
+	point_path_muscle {
+		name = bifemsh_r
+		max_isometric_force = 1273
+		optimal_fiber_length = 0.1103
+		tendon_slack_length = 0.095
+		pennation_angle = 0.2147
+		path [
+			{ body = femur_r pos { x = 0.005 y = -0.0411 z = 0.0234 } }
+			{ body = tibia_r pos { x = -0.028 y = 0.1667 z = 0.02943 } }
+			{ body = tibia_r pos { x = -0.021 y = 0.1467 z = 0.0343 } }
+		]
+	}
+	point_path_muscle {
+		name = glut_max_r
+		max_isometric_force = 3338
+		optimal_fiber_length = 0.1569
+		tendon_slack_length = 0.111
+		pennation_angle = 0.3822
+		path [
+			{ body = pelvis pos { x = -0.0642 y = 0.0176 z = 0.0563 } }
+			{ body = pelvis pos { x = -0.0669 y = -0.052 z = 0.0914 } }
+			{ body = femur_r pos { x = -0.0426 y = 0.117 z = 0.0293 } }
+			{ body = femur_r pos { x = -0.0156 y = 0.0684 z = 0.0419 } }
+		]
+	}
+	point_path_muscle {
+		name = iliopsoas_r
+		max_isometric_force = 2448
+		optimal_fiber_length = 0.1066
+		tendon_slack_length = 0.152
+		pennation_angle = 0.2496
+		path [
+			{ body = pelvis pos { x = 0.006 y = 0.0887 z = 0.0289 } }
+			{ body = pelvis pos { x = 0.0407 y = -0.01 z = 0.076 } }
+			{ body = femur_r pos { x = 0.033 y = 0.135 z = 0.0038 } }
+			{ body = femur_r pos { x = -0.0188 y = 0.1103 z = 0.0104 } }
+		]
+	}
+	point_path_muscle {
+		name = rect_fem_r
+		max_isometric_force = 2192
+		optimal_fiber_length = 0.0759
+		tendon_slack_length = 0.3449
+		pennation_angle = 0.2426
+		path [
+			{ body = pelvis pos { x = 0.0412 y = -0.0311 z = 0.0968 } }
+			{ body = femur_r pos { x = 0.038 y = -0.17 z = 0.004 } }
+			{ body = tibia_r pos { x = 0.038 y = 0.2117 z = 0.0018 } }
+		]
+	}
+	point_path_muscle {
+		name = vas_int_r
+		max_isometric_force = 9594
+		optimal_fiber_length = 0.0993
+		tendon_slack_length = 0.1231
+		pennation_angle = 0.0785
+		path [
+			{ body = femur_r pos { x = 0.029 y = -0.0224 z = 0.031 } }
+			{ body = femur_r pos { x = 0.038 y = -0.17 z = 0.007 } }
+			{ body = tibia_r pos { x = 0.038 y = 0.2117 z = 0.0018 } }
+		]
+	}
+	point_path_muscle {
+		name = gastroc_r
+		max_isometric_force = 4691
+		optimal_fiber_length = 0.051
+		tendon_slack_length = 0.384
+		pennation_angle = 0.1728
+		path [
+			{ body = femur_r pos { x = -0.02 y = -0.218 z = -0.024 } }
+			{ body = calcn_r pos { x = -0.095 y = 0.001 z = -0.0053 } }
+		]
+	}
+	point_path_muscle {
+		name = soleus_r
+		max_isometric_force = 6195
+		optimal_fiber_length = 0.044
+		tendon_slack_length = 0.248
+		pennation_angle = 0.4939
+		path [
+			{ body = tibia_r pos { x = -0.0024 y = 0.0334 z = 0.0071 } }
+			{ body = calcn_r pos { x = -0.095 y = 0.001 z = -0.0053 } }
+		]
+	}
+	point_path_muscle {
+		name = tib_ant_r
+		max_isometric_force = 2116
+		optimal_fiber_length = 0.0683
+		tendon_slack_length = 0.243
+		pennation_angle = 0.1676
+		path [
+			{ body = tibia_r pos { x = 0.0179 y = 0.0243 z = 0.0115 } }
+			{ body = tibia_r pos { x = 0.0329 y = -0.2084 z = -0.0177 } }
+			{ body = calcn_r pos { x = 0.0166 y = -0.0122 z = -0.0305 } }
+		]
+	}
+	point_path_muscle {
+		name = glut_med_l
+		max_isometric_force = 2729
+		optimal_fiber_length = 0.0733
+		tendon_slack_length = 0.066
+		pennation_angle = 0.3578
+		path [
+			{ body = pelvis pos { x = -0.0148 y = 0.0445 z = -0.0766 } }
+			{ body = femur_l pos { x = -0.0258 y = 0.1642 z = -0.0527 } }
+		]
+	}
+	point_path_muscle {
+		name = add_mag_l
+		max_isometric_force = 3931
+		optimal_fiber_length = 0.087
+		tendon_slack_length = 0.06
+		pennation_angle = 0.0872665
+		path [
+			{ body = pelvis pos { x = -0.0025 y = -0.1174 z = -0.0255 } }
+			{ body = femur_l pos { x = -0.0045 y = 0.0489 z = -0.0339 } }
+		]
+	}
+	point_path_muscle {
+		name = hamstrings_l
+		max_isometric_force = 4105
+		optimal_fiber_length = 0.0976
+		tendon_slack_length = 0.319
+		pennation_angle = 0.2025
+		path [
+			{ body = pelvis pos { x = -0.05526 y = -0.10257 z = -0.06944 } }
+			{ body = tibia_l pos { x = -0.028 y = 0.1667 z = -0.02943 } }
+			{ body = tibia_l pos { x = -0.021 y = 0.1467 z = -0.0343 } }
+		]
+	}
+	point_path_muscle {
+		name = bifemsh_l
+		max_isometric_force = 1273
+		optimal_fiber_length = 0.1103
+		tendon_slack_length = 0.095
+		pennation_angle = 0.2147
+		path [
+			{ body = femur_l pos { x = 0.005 y = -0.0411 z = -0.0234 } }
+			{ body = tibia_l pos { x = -0.028 y = 0.1667 z = -0.02943 } }
+			{ body = tibia_l pos { x = -0.021 y = 0.1467 z = -0.0343 } }
+		]
+	}
+	point_path_muscle {
+		name = glut_max_l
+		max_isometric_force = 3338
+		optimal_fiber_length = 0.1569
+		tendon_slack_length = 0.111
+		pennation_angle = 0.3822
+		path [
+			{ body = pelvis pos { x = -0.0642 y = 0.0176 z = -0.0563 } }
+			{ body = pelvis pos { x = -0.0669 y = -0.052 z = -0.0914 } }
+			{ body = femur_l pos { x = -0.0426 y = 0.117 z = -0.0293 } }
+			{ body = femur_l pos { x = -0.0156 y = 0.0684 z = -0.0419 } }
+		]
+	}
+	point_path_muscle {
+		name = iliopsoas_l
+		max_isometric_force = 2448
+		optimal_fiber_length = 0.1066
+		tendon_slack_length = 0.152
+		pennation_angle = 0.2496
+		path [
+			{ body = pelvis pos { x = 0.006 y = 0.0887 z = -0.0289 } }
+			{ body = pelvis pos { x = 0.0407 y = -0.01 z = -0.076 } }
+			{ body = femur_l pos { x = 0.033 y = 0.135 z = -0.0038 } }
+			{ body = femur_l pos { x = -0.0188 y = 0.1103 z = -0.0104 } }
+		]
+	}
+	point_path_muscle {
+		name = rect_fem_l
+		max_isometric_force = 2192
+		optimal_fiber_length = 0.0759
+		tendon_slack_length = 0.3449
+		pennation_angle = 0.2426
+		path [
+			{ body = pelvis pos { x = 0.0412 y = -0.0311 z = -0.0968 } }
+			{ body = femur_l pos { x = 0.038 y = -0.17 z = -0.004 } }
+			{ body = tibia_l pos { x = 0.038 y = 0.2117 z = -0.0018 } }
+		]
+	}
+	point_path_muscle {
+		name = vas_int_l
+		max_isometric_force = 9594
+		optimal_fiber_length = 0.0993
+		tendon_slack_length = 0.1231
+		pennation_angle = 0.0785
+		path [
+			{ body = femur_l pos { x = 0.029 y = -0.0224 z = -0.031 } }
+			{ body = femur_l pos { x = 0.038 y = -0.17 z = -0.007 } }
+			{ body = tibia_l pos { x = 0.038 y = 0.2117 z = -0.0018 } }
+		]
+	}
+	point_path_muscle {
+		name = gastroc_l
+		max_isometric_force = 4691
+		optimal_fiber_length = 0.051
+		tendon_slack_length = 0.384
+		pennation_angle = 0.1728
+		path [
+			{ body = femur_l pos { x = -0.02 y = -0.218 z = 0.024 } }
+			{ body = calcn_l pos { x = -0.095 y = 0.001 z = 0.0053 } }
+		]
+	}
+	point_path_muscle {
+		name = soleus_l
+		max_isometric_force = 6195
+		optimal_fiber_length = 0.044
+		tendon_slack_length = 0.248
+		pennation_angle = 0.4939
+		path [
+			{ body = tibia_l pos { x = -0.0024 y = 0.0334 z = -0.0071 } }
+			{ body = calcn_l pos { x = -0.095 y = 0.001 z = 0.0053 } }
+		]
+	}
+	point_path_muscle {
+		name = tib_ant_l
+		max_isometric_force = 2116
+		optimal_fiber_length = 0.0683
+		tendon_slack_length = 0.243
+		pennation_angle = 0.1676
+		path [
+			{ body = tibia_l pos { x = 0.0179 y = 0.0243 z = -0.0115 } }
+			{ body = tibia_l pos { x = 0.0329 y = -0.2084 z = 0.0177 } }
+			{ body = calcn_l pos { x = 0.0166 y = -0.0122 z = 0.0305 } }
+		]
+	}
+	geometry {
+		name = platform
+		type = plane
+		normal { x = -1 y = 0 z = 0 }
+		body = ground
+		pos { x = 0 y = 0 z = 0 }
+		ori { x = 0 y = 0 z = -90 }
+	}
+	geometry {
+		name = heel_r
+		type = sphere
+		radius = 0.03
+		body = calcn_r
+		pos { x = -0.085 y = -0.015 z = -0.005 }
+		ori { x = 0 y = 0 z = 0 }
+	}
+	geometry {
+		name = toe_lat_r
+		type = sphere
+		radius = 0.02
+		body = calcn_r
+		pos { x = 0.0425 y = -0.03 z = 0.041 }
+		ori { x = 0 y = 0 z = 0 }
+	}
+	geometry {
+		name = toe_med_r
+		type = sphere
+		radius = 0.02
+		body = calcn_r
+		pos { x = 0.085 y = -0.03 z = -0.0275 }
+		ori { x = 0 y = 0 z = 0 }
+	}
+	geometry {
+		name = heel_l
+		type = sphere
+		radius = 0.03
+		body = calcn_l
+		pos { x = -0.085 y = -0.015 z = 0.005 }
+		ori { x = 0 y = 0 z = 0 }
+	}
+	geometry {
+		name = toe_lat_l
+		type = sphere
+		radius = 0.02
+		body = calcn_l
+		pos { x = 0.0425 y = -0.03 z = -0.041 }
+		ori { x = 0 y = 0 z = 0 }
+	}
+	geometry {
+		name = toe_med_l
+		type = sphere
+		radius = 0.02
+		body = calcn_l
+		pos { x = 0.085 y = -0.03 z = 0.0275 }
+		ori { x = 0 y = 0 z = 0 }
+	}
+	geometry {
+		name = upper_leg_r
+		type = capsule
+		radius = 0.05
+		height = 0.37
+		body = femur_r
+		pos { x = 0 y = -0.04 z = 0.01 }
+		ori { x = -3 y = 0 z = 0 }
+	}
+	geometry {
+		name = lower_leg_r
+		type = capsule
+		radius = 0.04
+		height = 0.35
+		body = tibia_r
+		pos { x = 0 y = -0.05 z = 0 }
+		ori { x = 0 y = 0 z = 3 }
+	}
+	geometry {
+		name = upper_leg_l
+		type = capsule
+		radius = 0.05
+		height = 0.37
+		body = femur_l
+		pos { x = 0 y = -0.04 z = -0.01 }
+		ori { x = 3 y = 0 z = 0 }
+	}
+	geometry {
+		name = lower_leg_l
+		type = capsule
+		radius = 0.04
+		height = 0.35
+		body = tibia_l
+		pos { x = 0 y = -0.05 z = 0 }
+		ori { x = 0 y = 0 z = 3 }
+	}
+	geometry {
+		name = lower_trunk
+		type = capsule
+		radius = 0.1
+		height = 0.12
+		body = pelvis
+		pos { x = -0.01 y = -0.01 z = 0 }
+		ori { x = 90 y = 0 z = 0 }
+	}
+	geometry {
+		name = belly
+		type = capsule
+		radius = 0.10
+		height = 0.1
+		body = torso
+		pos { x = 0.05 y = -0.27 z = 0 }
+		ori { x = 90 y = 0 z = 0 }
+	}
+	geometry {
+		name = middle_trunk
+		type = capsule
+		radius = 0.10
+		height = 0.12
+		body = torso
+		pos { x = 0.04 y = -0.15 z = 0 }
+		ori { x = 90 y = 0 z = 0 }
+	}
+	geometry {
+		name = upper_trunk
+		type = capsule
+		radius = 0.11
+		height = 0.13
+		body = torso
+		pos { x = 0.03 y = -0.01 z = 0 }
+		ori { x = 90 y = 0 z = 0 }
+	}
+	geometry {
+		name = head
+		type = sphere
+		radius = 0.1
+		body = torso
+		pos { x = 0.04 y = 0.24 z = 0 }
+	}
+	dof { name = pelvis_tilt source = pelvis_rz range = -90..90 }
+	dof { name = pelvis_list source = pelvis_rx range = -90..90 }
+	dof { name = pelvis_rotation source = pelvis_ry range = -90..90 }
+	dof { name = pelvis_tx source = pelvis_tx range = -5..5 }
+	dof { name = pelvis_ty source = pelvis_ty range = -1..2 default = 1 }
+	dof { name = pelvis_tz source = pelvis_tz range = -3..3 }
+	dof { name = hip_flexion_r source = hip_rz_r range = -30..120 }
+	dof { name = hip_adduction_r source = hip_rx_r range = -45..20 }
+	dof { name = hip_rotation_r source = hip_ry_r range = -45..45 }
+	dof { name = knee_angle_r source = knee_rz_r range = -120..10 }
+	dof { name = ankle_angle_r source = ankle_rz_r range = -60..25 }
+	dof { name = hip_flexion_l source = hip_rz_l range = -30..120 }
+	dof { name = hip_adduction_l source = -hip_rx_l range = -45..20 }
+	dof { name = hip_rotation_l source = -hip_ry_l range = -45..45 }
+	dof { name = knee_angle_l source = knee_rz_l range = -120..10 }
+	dof { name = ankle_angle_l source = ankle_rz_l range = -60..25 }
+	dof { name = lumbar_extension source = lumbar_joint_rz range = -90..90 }
+	dof { name = lumbar_bending source = lumbar_joint_rx range = -90..90 }
+	dof { name = lumbar_rotation source = lumbar_joint_ry range = -90..90 }
+	dof { name = hip_strap_hinge_rx_l source = hip_strap_hinge_rx_l range = -15..15 }
+	dof { name = hip_strap_hinge_ry_l source = hip_strap_hinge_ry_l range = -15..15 }
+	dof { name = hip_strap_hinge_rz_l source = hip_strap_hinge_rz_l range = -15..15 }
+	dof { name = hip_strap_slide_l source = hip_strap_slide_ty_l range = -0.02..0.02 }
+	dof { name = hip_strap_hinge_rx_r source = hip_strap_hinge_rx_r range = -15..15 }
+	dof { name = hip_strap_hinge_ry_r source = hip_strap_hinge_ry_r range = -15..15 }
+	dof { name = hip_strap_hinge_rz_r source = hip_strap_hinge_rz_r range = -15..15 }
+	dof { name = hip_strap_slide_r source = hip_strap_slide_ty_r range = -0.02..0.02 }
+}

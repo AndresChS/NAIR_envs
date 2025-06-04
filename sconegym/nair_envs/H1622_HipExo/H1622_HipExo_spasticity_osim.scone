@@ -40,7 +40,7 @@ CmaOptimizer {
 		CompositeMeasure {
 			minimize = true
 			#EffortMeasure {measure_type = Wang2012 weight = 0.1 minimize = true}	
-			<< measure/MeasureGait10.scone >>
+			<< measures/MeasureGait10.scone >>
 			#ScriptMeasure {script_file = measure.lua weight = 1 minimize = true}
 		}
 		

@@ -208,7 +208,7 @@ model {
 	}
 	point_path_muscle {
 		name = hip_strap_rope_l
-		max_isometric_force = 3000
+		max_isometric_force = 1000
 		optimal_fiber_length = 0.4
 		tendon_slack_length = 0.3
 		pennation_angle = 0.3578
@@ -219,7 +219,7 @@ model {
 	}
 	point_path_muscle {
 		name = hip_strap_rope_r
-		max_isometric_force = 3000
+		max_isometric_force = 1000
 		optimal_fiber_length = 0.4
 		tendon_slack_length = 0.3
 		pennation_angle = 0.3578
@@ -443,17 +443,6 @@ model {
 			{ body = tibia_l pos { x = 0.0329 y = -0.2084 z = 0.0177 } }
 			{ body = calcn_l pos { x = 0.0166 y = -0.0122 z = 0.0305 } }
 		]
-	}
-	joint_motor {
-		joint = exo_flexion_r
-		stiffness = 1
-		damping = 1
-		max_torque = 100
-		target_vel = [ 0 0 0 ]
-		torque_offset = [ 0 0 0 ]
-	}
-	joint_motor_force{
-		name = exo_motor_r
 	}
 	geometry {
 		name = platform

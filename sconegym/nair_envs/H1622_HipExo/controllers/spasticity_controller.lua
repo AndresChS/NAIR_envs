@@ -233,18 +233,7 @@ function update(model)
 	knee_vel = knee:velocity()
 	
 	
-	--if t >= 0.1 then
-	--	uo = 10.0
-	--end
-	
-	-- getting muscles length
-	--local musbfsh_length = musbfsh_r:normalized_fiber_length()
 
-	-- if type(bfsh_h) == 'table' then
-		-- scone.debug('bfsh_h is table')
-	-- else
-		-- scone.debug('bfsh_h is not table')
-	-- end
 	
 	--bfsh_h[n] = musbfsh_length
 	time_h[n] = t

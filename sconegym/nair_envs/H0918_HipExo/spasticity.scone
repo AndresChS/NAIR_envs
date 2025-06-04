@@ -7,14 +7,14 @@ CmaOptimizer {
 	signature_prefix = DATE_TIME
 	min_progress_samples = 100
 	#init = {file = par/250318.150848.H0918v3.0171_72.397_27.390.par locked = 0}
-	
+	init { file = init_state/H0918GaitRS2Hfd4.par std_factor = 2 use_best_as_mean = 1 }
 	SimulationObjective {
 		max_duration = 10
 		
 		ModelHyfydy {
-			model_file = H0918v3.hfd#H0918_nair_fix3.hfd
+			model_file = models/H0918_HipExoV0.hfd#H0918_nair_fix3.hfd
 			enable_dof_actuators = 1
-			state_init_file = InitStateExoGait_0.zml#InitStateExo_Flex_v0.zml #InitStateExoGait_0.zml
+			state_init_file = init_state/InitStateExoGait_0.zml#InitStateExo_Flex_v0.zml #InitStateExoGait_0.zml
 			initial_state_offset = "0~0.01<-0.5,0.5>"
 			initial_state_offset_exclude = *_tx;*_ty;*_u
 			fixed_control_step_size = 0.005
@@ -23,8 +23,8 @@ CmaOptimizer {
 			
 		}	# modleg.osim / Exoleg_v6.osim
 		CompositeController{
-			<< ControllerGH2010v12.scone >>
-			ScriptController {script_file = spasticity_controller.lua}
+			<< controllers/ControllerGH2010v12.scone >>
+			ScriptController {script_file = controllers/spasticity_controller.lua}
 			#ReflexController {
 			#	ConditionalMuscleReflex {
 			#		dof = knee_angle_r
@@ -40,7 +40,7 @@ CmaOptimizer {
 		CompositeMeasure {
 			minimize = true
 			#EffortMeasure {measure_type = Wang2012 weight = 0.1 minimize = true}	
-			<< MeasureGait10.scone >>
+			<< measures/MeasureGait10.scone >>
 			#ScriptMeasure {script_file = measure.lua weight = 1 minimize = true}
 		}
 		

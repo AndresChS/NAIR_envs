@@ -7,7 +7,7 @@ curr_dir = os.path.dirname(os.path.abspath(__file__))
 register(id="nair_walk_h0918-v0",
          entry_point="sconegym.nair_gaitgym:GaitGym",
          kwargs={
-             'model_file': curr_dir + '/nair_envs/H0918_nair/H0918_nair_hfd.scone',
+             'model_file': curr_dir + '/nair_envs/H0918_Spasticity/H0918_KneeExoRLV0.scone',
              'obs_type': '2D',
              'left_leg_idxs': [3, 4, 5],
              'right_leg_idxs': [6, 7, 8],
@@ -28,7 +28,7 @@ register(id="nair_walk_h0918-v0",
 register(id="nair_walk_h0918-v1",
          entry_point="sconegym.nair_gaitgym:GaitGym",
          kwargs={
-             'model_file': curr_dir + '/nair_envs/H0918_KneeExo/H0918_knee_exo_hfd.scone',
+             'model_file': curr_dir + '/nair_envs/H0918_KneeExo/H0918_KneeExoRLV0.scone',
              'obs_type': '2D',
              'left_leg_idxs': [3, 4, 5],
              'right_leg_idxs': [6, 7, 8],

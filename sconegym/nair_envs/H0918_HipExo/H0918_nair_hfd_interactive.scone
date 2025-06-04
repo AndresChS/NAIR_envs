@@ -6,7 +6,7 @@
 # 4. RELOAD the scenario (Ctrl+R) to activate the record button again
 #
 ModelHyfydy {
-	model_file = H0918_nair_fix3.hfd
+	model_file = models/H0918_HipExoV0.hfd
 	simulation_end_time = 60
 	
 	# Set initial state

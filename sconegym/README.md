@@ -1,3 +1,4 @@
+# Sconegym notes
 Paste init_v0.py and "nair_envs" folder in "/opt/scone/scone/scenarios/sconegym"
 
 Running this command:
