@@ -1,0 +1,10 @@
+# Model used in simulation
+ModelHyfydy {
+	model_file = models/H0910_LLSV0.hfd
+	simulation_end_time = 10
+	# Set initial state
+	state_init_file = init_state/InitStateLLSFlexV0.zml
+	fixed_control_step_size = 0.005
+	initial_equilibration_activation = 0.05
+	<< neural_delays/neural_delays_FEA_v4.zml >>
+}

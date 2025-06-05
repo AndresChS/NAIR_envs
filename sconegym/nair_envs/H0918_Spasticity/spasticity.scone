@@ -10,9 +10,9 @@ CmaOptimizer {
 		max_duration = 10
 		
 		ModelHyfydy {
-			model_file = models/H0918v3.hfd
+			model_file = models/H0918_LLSV0.hfd
 			enable_dof_actuators = 1
-			state_init_file = init_state/InitStateExoGait_0.zml#InitStateExo_Flex_v0.zml #InitStateExoGait_0.zml
+			state_init_file = init_state/InitStateExoFlexV0.zml#InitStateExo_Flex_v0.zml #InitStateExoGait_0.zml
 			initial_state_offset = "0~0.01<-0.5,0.5>"
 			initial_state_offset_exclude = *_tx;*_ty;*_u
 			fixed_control_step_size = 0.005
@@ -21,8 +21,8 @@ CmaOptimizer {
 		}	
 		
 		CompositeController{
-			<< controllers/ControllerGH2010v12.scone >>
-			ScriptController {script_file = controllers/spasticity_controller.lua}
+			#<< controllers/ControllerGH2010v12.scone >>
+			#ScriptController {script_file = controllers/spasticity_controller.lua}
 		}
 		
 		CompositeMeasure {

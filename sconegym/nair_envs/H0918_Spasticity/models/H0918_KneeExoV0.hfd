@@ -133,6 +133,14 @@ model {
 		mass = 3.7075
 		inertia { x = 0.0504 y = 0.0051 z = 0.0511 }
 		#com_pos [ 0 0.37 0.05 ]
+		joint_6dof {
+			name = hip_strap_slide_r
+			parent = femur_r
+			pos_in_parent { x = 0 y = 0.05 z = 0.05 }
+			pos_in_child { x = 0 y = 0.1347 z = -0.05 }
+			limits { x = -0..0 y = -0..0 z = -0..0 }
+			translation_limits { x = -5..5 y = -0.2..0.2 z = -0..0 }	
+		}
 		joint {
 			name = hip_strap_hinge_r
 			parent = femur_r
@@ -140,16 +148,7 @@ model {
 			pos_in_child { x = 0 y = 0.1347 z = -0.05 }
 			limits { x = 0..0 y = 0..0 z = 0..0 }
 			limit_stiffness = 1000
-			stiffness = 1e3
-		}
-		joint_6dof {
-			name = hip_strap_slide_r
-			parent = femur_r
-			pos_in_parent { x = 0 y = 0.05 z = 0.05 }
-			pos_in_child { x = 0 y = 0.1347 z = -0.05 }
-			limits { x = 0..0 y = 0..0 z = 0..0 }
-			translation_limits { x = -1..1 y = -0.02..0.02 z = 0..0 }
-			
+			stiffness = 1e4
 		}
 		mesh {
 			file = UpperExo.STL
@@ -163,6 +162,15 @@ model {
 		inertia { x = 0.1339 y = 0.0351 z = 0.1412 }
 		#com_pos [ 0 0.19 0.07 ]
 		joint {
+			name = exo_flexion_r
+			parent = UpperExo
+			pos_in_parent { x = 0 y = -0.1533 z = -0.058 }
+			pos_in_child { x = 0 y = 0.1586 z = -0.07 }
+			limits { x = 0..0 y = 0..0 z = -135..10 }
+			limit_stiffness = 1000
+			stiffness = 1e5
+		}
+		joint {
 			name = tibia_strap_r
 			parent = tibia_r
 			pos_in_parent { x = 0 y = -0.0993 z = 0.042 }
@@ -170,14 +178,6 @@ model {
 			limits { x = 0..0 y = 0..0 z = -15..15 }
 			limit_stiffness = 100
 			stiffness = 1e4
-		}
-		joint {
-			name = exo_flexion_r
-			parent = UpperExo
-			pos_in_parent { x = 0 y = -0.1533 z = -0.058 }
-			pos_in_child { x = 0 y = 0.1586 z = -0.07 }
-			limits { x = 0..0 y = 0..0 z = -135..10 }
-			
 		}
 		mesh {
 			file = LowExo.STL
@@ -402,17 +402,6 @@ model {
 			{ body = calcn_l pos { x = 0.0166 y = -0.0122 z = 0.0305 } }
 		]
 	}
-	joint_motor {
-		joint = exo_flexion_r
-		stiffness = 1
-		damping = 1
-		max_torque = 100
-		target_vel = [ 0 0 0 ]
-		torque_offset = [ 0 0 0 ]
-	}
-	joint_motor_force{
-		name = exo_motor_r
-	}
 	geometry {
 		name = platform
 		type = plane
@@ -465,5 +454,4 @@ model {
 	dof { name = upperexo_hinge source = hip_strap_hinge_rz_r range = -15..15 }
 	dof { name = upperexo_slide source = hip_strap_slide_ty_r range = -0.1..0.1 }
 	dof { name = exo_rotation source = exo_flexion_rz_r range = -135..5 }
-	dof { name = lowerexo_hinge source = tibia_strap_rz_r range = -15..15 }
 }

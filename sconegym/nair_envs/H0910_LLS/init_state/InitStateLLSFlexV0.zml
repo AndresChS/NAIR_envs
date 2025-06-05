@@ -1,0 +1,16 @@
+values {
+	hip_flexion_r = 1.57
+	knee_angle_r = -1.57
+	ankle_angle_r = 0.0191986
+	hip_flexion_l = 0
+	knee_angle_l = 0
+	ankle_angle_l = 0
+}
+velocities {
+	hip_flexion_r = 0
+	knee_angle_r = 0
+	ankle_angle_r = 0
+	hip_flexion_l = 0
+	knee_angle_l = 0
+	ankle_angle_l = 0
+}
