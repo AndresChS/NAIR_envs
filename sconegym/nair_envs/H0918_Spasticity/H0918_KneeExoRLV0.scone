@@ -1,5 +1,4 @@
 # Model used in simulation
-init { file = par/spas_gait.par  std_factor = 2}
 ModelHyfydy {
 	model_file = models/H0918_KneeExoV0.hfd #H0918v3.hfd
 	simulation_end_time = 10
@@ -10,7 +9,7 @@ ModelHyfydy {
 	initial_equilibration_activation = 0.05
 	<< neural_delays/neural_delays_FEA_v4.zml >>
 	CompositeController{
-		<< controllers/ControllerGH2010v12.scone >>
-		ScriptController {script_file = controllers/spasticity_controller.lua}
+		#<< controllers/ControllerGH2010v12.scone >>
+		#ScriptController {script_file = controllers/spasticity_controller.lua}
 	}
 }
