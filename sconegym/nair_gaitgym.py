@@ -116,9 +116,7 @@ class SconeGym(gym.Env, ABC):
         takes an action and advances environment by 1 step.
         """
 # ************************** Exo-adapatation for the environment ***********************
-     
         action = np.concatenate([np.zeros(len(self.model.muscles())), action])
-
 # **************************************************************************************
         if self.clip_actions:
             action = np.clip(action, 0, 0.5)
@@ -243,10 +241,12 @@ class SconeGym(gym.Env, ABC):
         return self.model.com_vel().x
 
     def _setup_action_observation_spaces(self):
+#************************** adapt action space for control the exo ********************
         num_muscles = len(self.model.muscles())
         num_actuators = len(self.model.actuators())
         num_act = num_actuators - num_muscles
         print("num_muscles: ",num_muscles, "num_actuators: ", num_actuators, "num_actions: ", num_act )
+# *************************************************************************************
         self.action_space = gym.spaces.Box(
             low=np.zeros(shape=(num_act,)),
             high=np.ones(shape=(num_act,)),
@@ -533,20 +533,8 @@ class ExoGaitGym(SconeGym):
         self._setup_action_observation_spaces() 
         self.rwd_dict = None
         self.mass = np.sum([x.mass() for x in self.model.bodies()])
+        print(dir(self.model))
 
-    def _setup_action_observation_spaces(self):
-            num_muscles = len(self.model.muscles())
-            num_actuators = len(self.model.actuators())
-            num_act = num_actuators - num_muscles
-            print("num_muscles: ",num_muscles, "num_actuators: ", num_actuators, "num_actions: ", num_act )
-            self.action_space = gym.spaces.Box(
-                low=np.zeros(shape=(num_act,)),
-                high=np.ones(shape=(num_act,)),
-                dtype=np.float32,
-            )
-            self.observation_space = gym.spaces.Box(
-                low=-10000, high=10000, shape=self._get_obs().shape, dtype=np.float32
-            )
 
     def _get_obs(self):
         if self.obs_type == '2D':
@@ -602,7 +590,7 @@ class ExoGaitGym(SconeGym):
 
     def _get_obs_2d(self):
         acts = self.model.muscle_activation_array()
-        #print("muscles_activation:", acts)
+        
         self.prev_acts = self.model.muscle_activation_array().copy()
         self.prev_excs = self.model.muscle_excitation_array()
         dof_values = self.model.dof_position_array()
