@@ -2,7 +2,7 @@
 ModelHyfydy {
 	model_file = models/H0918_KneeExoV0.hfd #H0918_nair_fix3.hfd
 	simulation_end_time = 4
-	enable_dof_actuators = 0
+	enable_dof_actuators = 1
 	# Set initial state
 	state_init_file = init_states/InitStateExoGait_0.zml
 	fixed_control_step_size = 0.005

@@ -1,7 +1,7 @@
 CmaOptimizer {
 	signature_prefix = DATE_TIME
 	min_progress= 1e-4
-	
+
 	SimulationObjective {
 		max_duration = 10
 		

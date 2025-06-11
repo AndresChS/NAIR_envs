@@ -5,9 +5,10 @@ curr_dir = os.path.dirname(os.path.abspath(__file__))
 # Walk Environments
 # ***********************  Nair Envs definition *********************************************************************+
 register(id="nair_walk_h0918-v0",
-         entry_point="sconegym.nair_gaitgym:GaitGym",
+         entry_point="sconegym.nair_gaitgym:ExoGaitGym",
          kwargs={
              'model_file': curr_dir + '/nair_envs/H0918_Spasticity/H0918_KneeExoRLV0.scone',
+             'par_file': curr_dir + '/nair_envs/H0918_Spasticity/par/spas_gait.par',
              'obs_type': '2D',
              'left_leg_idxs': [3, 4, 5],
              'right_leg_idxs': [6, 7, 8],

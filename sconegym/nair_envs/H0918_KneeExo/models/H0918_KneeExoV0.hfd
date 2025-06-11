@@ -402,6 +402,15 @@ model {
 			{ body = calcn_l pos { x = 0.0166 y = -0.0122 z = 0.0305 } }
 		]
 	}
+	joint_motor {
+    joint = exo_flexion_r
+    stiffness = 0
+    damping = 0
+    max_torque = 100
+    target_ori = [ 0 0 90 ]
+    target_vel = [ 0 0 0 ]
+    torque_offset = [ 0 0 0 ]
+	}
 	geometry {
 		name = platform
 		type = plane

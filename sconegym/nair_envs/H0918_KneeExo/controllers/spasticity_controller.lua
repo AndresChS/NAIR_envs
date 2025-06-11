@@ -228,7 +228,7 @@ function update(model)
 	local v0_extension = vel_limit
 	local slope_increase = 0.05
 	local delbfsh_length = 0
-	local uo = 0.5
+	local uo = 0.1
 	knee_angle = (360/(2*3.14))*math.abs(knee:position()) -- position
 	knee_vel = knee:velocity()
 	

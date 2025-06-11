@@ -7,9 +7,11 @@ ModelHyfydy {
 	state_init_file = init_state/InitStateExoGait_0.zml
 	fixed_control_step_size = 0.005
 	initial_equilibration_activation = 0.05
+	use_opensim_activation_dynamics = 1
+	zero_velocity_equilibration = 1
 	<< neural_delays/neural_delays_FEA_v4.zml >>
 	CompositeController{
-		#<< controllers/ControllerGH2010v12.scone >>
+		<< controllers/ControllerGH2010v12.scone >>
 		#ScriptController {script_file = controllers/spasticity_controller.lua}
 	}
 }

@@ -17,9 +17,9 @@ model {
 	}
 	body {
 		name = pelvis
-		mass = 0#11.777
+		mass = 11.777
 		inertia { x = 0.1028 y = 0.0871 z = 0.0579 }
-		pos { x = -0.0707 y = 1 z = 0 }
+		pos { x = -0.0707 y = 0 z = 0 }
 		mesh { file = sacrum.vtp pos { x = 0.0707 y = 0 z = 0 } }
 		mesh { file = pelvis.vtp pos { x = 0.0707 y = 0 z = 0 } }
 		mesh { file = l_pelvis.vtp pos { x = 0.0707 y = 0 z = 0 } }
@@ -34,8 +34,6 @@ model {
 			pos_in_parent { x = 0 y = -0.0661 z = 0.0835 }
 			pos_in_child { x = 0 y = 0.17 z = 0 }
 			limits { x = 0..0 y = 0..0 z = 90..90 }
-			limit_stiffness = 1000
-			limit_damping = 1e4
 		}
 		mesh { file = femur.vtp pos { x = 0 y = 0.17 z = 0 } }
 	}
@@ -403,6 +401,15 @@ model {
 			{ body = tibia_l pos { x = 0.0329 y = -0.2084 z = 0.0177 } }
 			{ body = calcn_l pos { x = 0.0166 y = -0.0122 z = 0.0305 } }
 		]
+	}
+	joint_motor {
+    joint = exo_flexion_r
+    stiffness = 0
+    damping = 0
+    max_torque = 100
+    target_ori = [ 0 0 90 ]
+    target_vel = [ 0 0 0 ]
+    torque_offset = [ 0 0 0 ]
 	}
 	geometry {
 		name = platform

@@ -43,6 +43,7 @@ class SconeGym(gym.Env, ABC):
 
     def __init__(self,
                  model_file,
+                 par_file,
                  left_leg_idxs,
                  right_leg_idxs,
                  root_body_name = 'pelvis',
@@ -95,7 +96,14 @@ class SconeGym(gym.Env, ABC):
         self.fall_recovery_time = fall_recovery_time
         super().__init__(*args, **kwargs)
         sconepy.set_log_level(3)
-        self.model = sconepy.load_model(model_file)
+
+# ************ Adding .PAR file for optimized gait controller  ******************
+        if par_file and os.path.exists(par_file):
+            self.model = sconepy.load_model(model_file, par_file)
+        else:
+            self.model = sconepy.load_model(model_file)
+# *******************************************************************************
+
         self.init_dof_pos = self.model.dof_position_array().copy()
         self.init_dof_vel = self.model.dof_velocity_array().copy()
         self.set_output_dir("DATE_TIME." + self.model.name())
@@ -107,6 +115,11 @@ class SconeGym(gym.Env, ABC):
         """
         takes an action and advances environment by 1 step.
         """
+# ************************** Exo-adapatation for the environment ***********************
+     
+        action = np.concatenate([np.zeros(len(self.model.muscles())), action])
+
+# **************************************************************************************
         if self.clip_actions:
             action = np.clip(action, 0, 0.5)
         else:
@@ -230,7 +243,10 @@ class SconeGym(gym.Env, ABC):
         return self.model.com_vel().x
 
     def _setup_action_observation_spaces(self):
-        num_act = len(self.model.actuators())
+        num_muscles = len(self.model.muscles())
+        num_actuators = len(self.model.actuators())
+        num_act = num_actuators - num_muscles
+        print("num_muscles: ",num_muscles, "num_actuators: ", num_actuators, "num_actions: ", num_act )
         self.action_space = gym.spaces.Box(
             low=np.zeros(shape=(num_act,)),
             high=np.ones(shape=(num_act,)),
@@ -507,5 +523,226 @@ class GaitGymMeasureH0918(GaitGym):
     def custom_reward(self):
         self.rwd_dict = self.create_rwd_dict()
         return self.model.current_measure()
+
+
+
+class ExoGaitGym(SconeGym):
+    def __init__(self, model_file, par_file, *args, **kwargs):
+        self._max_episode_steps = 1000
+        super().__init__(model_file, par_file, *args, **kwargs)
+        self._setup_action_observation_spaces() 
+        self.rwd_dict = None
+        self.mass = np.sum([x.mass() for x in self.model.bodies()])
+
+    def _setup_action_observation_spaces(self):
+            num_muscles = len(self.model.muscles())
+            num_actuators = len(self.model.actuators())
+            num_act = num_actuators - num_muscles
+            print("num_muscles: ",num_muscles, "num_actuators: ", num_actuators, "num_actions: ", num_act )
+            self.action_space = gym.spaces.Box(
+                low=np.zeros(shape=(num_act,)),
+                high=np.ones(shape=(num_act,)),
+                dtype=np.float32,
+            )
+            self.observation_space = gym.spaces.Box(
+                low=-10000, high=10000, shape=self._get_obs().shape, dtype=np.float32
+            )
+
+    def _get_obs(self):
+        if self.obs_type == '2D':
+            return self._get_obs_2d()
+        elif self.obs_type == '3D':
+            return self._get_obs_3d()
+        else:
+            raise NotImplementedError
+
+    def _get_obs_3d(self):
+        acts = self.model.muscle_activation_array()
+        #print(acts)
+        self.prev_acts = self.model.muscle_activation_array().copy()
+        self.prev_excs = self.model.muscle_excitation_array()
+        dof_values = self.model.dof_position_array()
+        dof_vels = self.model.dof_velocity_array()
+        # No x or y position in the state
+        dof_values[3] = 0.0
+        dof_values[5] = 0.0
+        return np.concatenate(
+            [
+                self.model.muscle_fiber_length_array(),
+                self.model.muscle_fiber_velocity_array(),
+                self.model.muscle_force_array(),
+                self.model.muscle_excitation_array(),
+                self.head_body.orientation().array(),
+                self.head_body.ang_vel().array(),
+                self._get_feet_relative_position(),
+                dof_values,
+                dof_vels,
+                acts,
+            ],
+            dtype=np.float32,
+        ).copy()
+
+    def _get_feet_relative_position(self):
+        pelvis = (
+            [x for x in self.model.bodies() if self.root_body_name in x.name()][0]
+            .com_pos()
+            .array()
+        )
+        foot_l = (
+            [x for x in self.model.bodies() if self.left_foot_body_name in x.name()][0]
+            .com_pos()
+            .array()
+        )
+        foot_r = (
+            [x for x in self.model.bodies() if self.right_foot_body_name in x.name()][0]
+            .com_pos()
+            .array()
+        )
+        return np.concatenate([foot_l - pelvis, foot_r - pelvis], dtype=np.float32)
+
+    def _get_obs_2d(self):
+        acts = self.model.muscle_activation_array()
+        #print("muscles_activation:", acts)
+        self.prev_acts = self.model.muscle_activation_array().copy()
+        self.prev_excs = self.model.muscle_excitation_array()
+        dof_values = self.model.dof_position_array()
+        dof_vels = self.model.dof_velocity_array()
+        dof_values[1] = 0.0
+        if not self.use_delayed_sensors:
+            return np.concatenate(
+                [
+                    self.model.muscle_fiber_length_array(),
+                    self.model.muscle_fiber_velocity_array(),
+                    self.model.muscle_force_array(),
+                    self.model.muscle_excitation_array(),
+                    self.head_body.orientation().array(),
+                    self.head_body.ang_vel().array(),
+                    self._get_feet_relative_position(),
+                    dof_values,
+                    dof_vels,
+                    acts,
+                ],
+                dtype=np.float32,
+            ).copy()
+
+        else:
+            return np.concatenate(
+                [
+                    self.model.delayed_muscle_fiber_length_array(),
+                    self.model.delayed_muscle_fiber_velocity_array(),
+                    self.model.delayed_muscle_force_array(),
+                    self.model.delayed_vestibular_array(),
+                    self.model.muscle_excitation_array(),
+                    self.model.muscle_activation_array(),
+                ],
+                dtype=np.float32,
+            ).copy()
+
+    def _get_rew(self):
+        """
+        Reward function.
+        """
+        self.total_steps += 1
+        self.steps += 1
+        return self.custom_reward()
+
+    def custom_reward(self):
+        self._update_rwd_dict()
+        return np.sum(list(self.rwd_dict.values()))
+
+    def _update_rwd_dict(self):
+        self.rwd_dict = {
+            "gaussian_vel": self.vel_coeff * self._gaussian_plateau_vel(),
+            "grf": self.grf_coeff * self._grf(),
+            "smooth": self.smooth_coeff * self._exc_smooth_cost(),
+            "number_muscles": self.nmuscle_coeff * self._number_muscle_cost(),
+            "constr": self.joint_limit_coeff * self._joint_limit_torques(),
+            "self_contact": self.self_contact_coeff * self._get_self_contact(),
+        }
+        return self.rwd_dict
+
+    def get_rwd_dict(self):
+        if not self.rwd_dict:
+            self.rwd_dict = self._update_rwd_dict()
+        rwd_dict = {k: v for k, v in self.rwd_dict.items()}
+        return rwd_dict
+
+    def _number_muscle_cost(self):
+        """
+        Get number of muscle with activations over 0.15.
+        """
+        return self._get_active_muscles(0.15)
+
+    def _get_active_muscles(self, threshold):
+        """
+        Get the number of muscles whose activations is above the threshold.
+        """
+        return (
+            np.sum(
+                np.where(self.model.muscle_activation_array() > threshold)[0].shape[0]
+            )
+            / self.action_space.shape[0]
+        )
+
+    def _gaussian_vel(self):
+        vel = self.model_velocity()
+        return np.exp(-np.square(vel - self.target_vel))
+
+    def _gaussian_plateau_vel(self):
+        if self.run:
+            return self.model_velocity()
+        vel = self.model_velocity()
+        if vel < self.target_vel:
+            return self._gaussian_vel()
+        else:
+            return 1.0
+
+    def _exc_smooth_cost(self):
+        excs = self.model.muscle_excitation_array()
+        delta_excs = excs - self.prev_excs
+        return np.mean(np.square(delta_excs))
+
+    def _get_self_contact(self):
+        ignore_bodies = ["calcn_r", "calcn_l"]
+        contact_force = np.sum(
+            [
+                np.abs(x.contact_force().array())
+                for x in self.model.bodies()
+                if x.name() not in ignore_bodies
+            ]
+        )
+        return np.clip(contact_force, -100, 100) / 100
+
+    def _joint_limit_torques(self):
+        return np.mean(
+            [np.mean(np.abs(x.limit_torque().array())) for x in self.model.joints()]
+        )
+
+    def _grf(self):
+        grf = self.model.contact_load()
+        return max(0, grf - 1.2)
+
+    def _get_done(self) -> bool:
+        """
+        The episode ends if the center of mass is below min_com_height.
+        """
+        fall = self.model.com_pos().y < self.min_com_height
+        fall = fall or self.head_body.com_pos().y < self.min_head_height
+        current_time = self.model.time()
+        if fall:
+            if self.fall_time < 0:
+                self.fall_time = current_time
+            if current_time - self.fall_time >= self.fall_recovery_time:
+                return True
+        else:
+            self.fall_time = -1.0
+
+        return False
+
+    @property
+    def horizon(self):
+        # TODO put this in model kwargs such that it works with deprl
+        return 1000
+
 
 
