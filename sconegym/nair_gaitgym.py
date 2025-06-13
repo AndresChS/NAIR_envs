@@ -116,6 +116,7 @@ class SconeGym(gym.Env, ABC):
         takes an action and advances environment by 1 step.
         """
 # ************************** Exo-adapatation for the environment ***********************
+        #print(action)
         action = np.concatenate([np.zeros(len(self.model.muscles())), action])
 # **************************************************************************************
         if self.clip_actions:
@@ -535,6 +536,82 @@ class ExoGaitGym(SconeGym):
         self.mass = np.sum([x.mass() for x in self.model.bodies()])
         print(dir(self.model))
 
+    def reset(
+        self,
+        *,
+        seed: Optional[int] = None,
+        return_info: bool = False,
+        options: Optional[dict] = None,
+    ):
+        """
+        Reset and randomize the initial state.
+        """
+        self.episode_number = np.random.randint(0, 1000000)
+        self.model.reset()
+        self.has_reset = True
+        self.time = 0
+        self.total_reward = 0.0
+        self.steps = 0
+        self.fall_time = -1.0
+        
+        # Check if data should be stored (slow)
+        self.model.set_store_data(self.store_next)
+        dof_positions = self.model.dof_position_array()
+        self.model.set_dof_positions(dof_positions)
+
+        if self.leg_switch:
+            if np.random.uniform() < 0.5:
+                self._switch_legs()
+        
+        self.prev_excs = self.model.muscle_excitation_array()
+
+        # Initialize state and equilibrate muscles
+        self.model.init_state_from_dofs()
+
+        if self.init_load > 0:
+            self.model.adjust_state_for_load(self.init_load)
+        obs = self._get_obs()
+        if return_info:
+            return obs, (obs, {})
+        else:
+            return obs
+
+    def step(self, action):
+        """
+        takes an action and advances environment by 1 step.
+        """
+# ************************** Exo-adapatation for the environment ***********************
+        #print(action)
+        action = np.concatenate([np.zeros(len(self.model.muscles())), action])
+# **************************************************************************************
+        if self.clip_actions:
+            action = np.clip(action, 0, 1.0)
+        else:
+            action = action*100
+        if not self.has_reset:
+            raise Exception("You have to call reset() once before step()")
+
+        if self.use_delayed_actuators:
+            self.model.set_delayed_actuator_inputs(action)
+        else:
+            self.model.set_actuator_inputs(action)
+
+        self.model.advance_simulation_to(self.time + self.step_size)
+        reward = self._get_rew()
+        obs = self._get_obs()
+        done = self._get_done()
+        reward = self._apply_termination_cost(reward, done)
+        self.time += self.step_size
+        self.total_reward += reward
+
+        if done:
+            if self.store_next:
+                self.model.write_results(
+                    self.output_dir, f"{self.episode:05d}_{self.total_reward:.3f}"
+                )
+                self.store_next = False
+            self.episode += 1
+        return obs, reward, done, {}
 
     def _get_obs(self):
         if self.obs_type == '2D':
@@ -641,7 +718,7 @@ class ExoGaitGym(SconeGym):
     def _update_rwd_dict(self):
         self.rwd_dict = {
             "gaussian_vel": self.vel_coeff * self._gaussian_plateau_vel(),
-            "grf": self.grf_coeff * self._grf(),
+            #"grf": self.grf_coeff * self._grf(),
             "smooth": self.smooth_coeff * self._exc_smooth_cost(),
             "number_muscles": self.nmuscle_coeff * self._number_muscle_cost(),
             "constr": self.joint_limit_coeff * self._joint_limit_torques(),
